@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <title>Search Event</title>
+
+    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap-social.css">
+    <link rel="stylesheet" href="../assets/css/fa-brands.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script src="../assets/js/scripts.js"></script>
+    <script src="../assets/jquery.min.js"></script>
+    <script src="../assets/jquery-ui.min.js"></script>
+    <script src="//api.backendless.com/sdk/js/latest/backendless.min.js"></script>
+</head>
+<script>
+    var APP_ID = '41E7CE4A-EDEC-6FC2-FF34-B6CD05DAFC00';
+    var API_KEY = 'EF68F6B0-AD70-0DB8-FF34-F79D27839900';
+    Backendless.initApp(APP_ID, API_KEY);
+</script>
+<header>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark" >
+        <a class="navbar-brand" href="home.html">
+            <img src="https://api.backendless.com/41E7CE4A-EDEC-6FC2-FF34-B6CD05DAFC00/8420C1D6-C7E6-F070-FFEF-06154CAE8500/files/web/pictures/icon-256px.png" width="64" height="64" class="d-inline-block align-top" alt="">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="SearchEvent.html">Find Classes</a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Schedule</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a id="orgTab" onclick="getOrgs()" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Organization List
+                    </a>
+
+                    <div id="orgSelect" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item"><div class="loadersmall"></div></a>
+                    </div>
+
+                </li>
+
+            </ul>
+
+
+            <ul class="nav navbar-nav navbar-right">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="EditProfile.html">Profile</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Settings</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="login2.html">Logout</a>
+                </li>
+
+            </ul>
+
+            <script>
+                if(localStorage["orgName"] != null){
+                    $("#orgTab").html(localStorage["orgName"]);
+                }
+                function getOrgs(){
+                    Backendless.CustomServices.invoke("Service", "GetOrganizationMembership").then(function(orgs){
+                        var orgString = "";
+                        for(var i in orgs){
+                            orgString += "<button onclick=\"setCurrentOrg('"+orgs[i].objectId+","+orgs[i].name+"')\" class='dropdown-item'>"+orgs[i].name+"</button>"
+                        }
+                        $("#orgSelect").html(orgString);
+                    }).catch(function(error){
+                        alert(error.message);
+                    });
+                }
+                function setCurrentOrg(org){
+                    var orgInfo = org.split(",");
+                    $("#orgTab").html(orgInfo[1]);
+                    localStorage["orgID"] = orgInfo[0];
+                    localStorage["orgName"] = orgInfo[1];
+                    changeOrg();
+                }
+            </script>
+
+        </div>
+    </nav>
+
+    <div class="alert alert-secondary alert-dismissible fade show" style="text-align: center"role="alert">
+        We provide this list as a courtesy, teachers are not vetted or endorsed by LHN. Please use extreme caution and do not leave your children with people you do not know or trust.<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+</header>
+
+<body class="bg-light" data-gr-c-s-loaded="true">
+<div class="container"> <br> <br>
+    <div id="search">
+        <div>
+            <h3 class="text-center">Search Events</h3>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <input class="form-control" id="title" placeholder="Class Title">
+            </div>
+            <div class="col-sm-6">
+                <input class="form-control" id="instructor" placeholder="Instructor Name">
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-sm-3">
+                <input class="form-control" type="number" id="age" placeholder="Age">
+            </div>
+            <div class="col-sm-6">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Subject</button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" onclick="cat('Math')">Math</a>
+                            <a class="dropdown-item" onclick="cat('Science')">Science</a>
+                            <a class="dropdown-item" onclick="cat('English')">English</a>
+                            <a class="dropdown-item" onclick="cat('History')">History</a>
+                            <a class="dropdown-item" onclick="cat('Music')">Music</a>
+                            <a class="dropdown-item" onclick="cat('Art')">Art</a>
+                            <a class="dropdown-item" onclick="cat('Extracurricular')">Extracurricular</a>
+                        </div>
+                    </div>
+                    <span id="subject" class="border">
+                        <!--<input id="subject" value="" type="text" class="form-control" aria-label="Text input with dropdown button">-->
+                    </span>
+
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <button class="btn btn-primary btn-block" onclick="filter()">Search</button>
+            </div>
+        </div>
+        <table class="table table-striped" id="view" style="display: none">
+            <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Event Title</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Age</th>
+                <th scope="col">Instructor</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody id="events"></tbody>
+        </table>
+    </div>
+    <div id="class" style="display: none">
+        <div class="row">
+            <div class="col-sm-3">
+                <img id="img" style="border-radius: 10px" class="img-fluid"/>
+            </div>
+
+            <div class="col-sm-9">
+                <div class="row">
+                    <h1 id="className"></h1>
+                </div>
+                <div class="row">
+                    <p id="description"></p>
+                </div>
+            </div>
+        </div>
+
+        <br/>
+
+        <div class="row" style="border-left: 1px solid; border-right: 1px solid; border-top: 1px solid">
+            <div class="col-sm-6" style="border-right: 1px solid">
+                <div class="d-flex flex-column bd-highlight mb-3">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="p-2 bd-highlight">Age Range:</div>
+                            <div class="p-2 bd-highlight">Date Range:</div>
+                            <div class="p-2 bd-highlight">Location:</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div id="ageRange" class="p-2 bd-highlight"></div>
+                            <div id="dateRange" class="p-2 bd-highlight"></div>
+                            <div id="location" class="p-2 bd-highlight"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="d-flex flex-column bd-highlight mb-3">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="p-2 bd-highlight">Grade:</div>
+                            <div class="p-2 bd-highlight">Cost:</div>
+                            <div class="p-2 bd-highlight">Frequency:</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div id="grade" class="p-2 bd-highlight"></div>
+                            <div id="cost" class="p-2 bd-highlight"></div>
+                            <div id="frequency" class="p-2 bd-highlight"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="border: 1px solid">
+            <div class="col-sm-12">
+                <div class="text-center"><h6>Requirements</h6></div>
+                <div id="limitations" class="p-2 bd-highlight; text-center"></div>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-sm-5"></div>
+            <div class="col-sm-2">
+                <button class="btn btn-primary btn-block" onclick="back()">Back</button>
+            </div>
+            <div class="col-sm-5"></div>
+        </div>
+    </div>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">© 2017-2018 Company Name</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">About Us</a></li>
+            <li class="list-inline-item"><a href="#">Disclaimer</a></li>
+            <li class="list-inline-item"><a href="#">Contact Us</a></li>
+        </ul>
+    </footer>
+</div>
+</body>
+
+<script>
+    var orgID = localStorage["orgID"];
+    //var orgID = "F0D68EE3-C207-C70A-FFF4-7BD4E3748D00"; // Test Organization
+    var rawEvents;
+    var event;
+    var subjects = "";
+    getEvents();
+    function getEvents(){
+        Backendless.CustomServices.invoke("Service", "GetOrganizationClasses", orgID).then(function(retrievedEvents){
+            rawEvents = retrievedEvents;
+        }).catch(function(error){
+            alert(error.message);
+        })
+    }
+    function changeOrg(){
+        orgID = localStorage["orgID"];
+        getEvents();
+    }
+    function filter(){
+        var events = [];
+        var title = document.getElementById("title").value;
+        var instructor = document.getElementById("instructor").value;
+        var age = document.getElementById("age").value;
+        //var subject = document.getElementById("subject").value.split(" ");
+        var subject = subjects.split(" ");
+        for(var i in rawEvents){
+            // Check if titles match
+            if(rawEvents[i].name == null || rawEvents[i].name.search(title) >= 0){
+                // Check if instructors match
+                var name = rawEvents[i].fname + " " + rawEvents[i].lname;
+                if(name == null || name.search(instructor) >= 0){
+                    // Check if age is within event age range
+                    var ageRange = rawEvents[i].ageRange.split(" - ");
+                    if(age == null || age === "" || (parseInt(age) >= parseInt(ageRange[0]) && parseInt(age) <= parseInt(ageRange[1]))){
+                        // Check if subject matches
+                        if(subject[0] === ""){
+                            // Add event to filtered list
+                            events.push(rawEvents[i]);
+                        }
+                        else{
+                            for(var j in subject){
+                                if(rawEvents[i].subject === subject[j]){
+                                    // Add event to filtered list
+                                    events.push(rawEvents[i]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        displayEvents(events);
+    }
+    function displayEvents(events){
+        var display = "";
+        for(var i in events){
+            display += (createEvent(events[i]) + "<br>");
+        }
+        $("#events").html(display);
+        $("#view").show();
+    }
+    function createEvent(event){
+        var display =
+            "<tr>" +
+            "   <th scope='row'><img style='border-radius: 10px' height='50px' width='50px' src='"+event.picUrl+"'></th>" +
+            "   <td>"+event.name+"</td>" +
+            "   <td>"+event.subject+"</td>" +
+            "   <td>"+event.ageRange+"</td>" +
+            "   <td>"+event.fname+" "+event.lname+"</td>" +
+            "   <td><button class='btn btn-info' onclick=\"viewClass('"+event.objectId+"')\">View Class</button></td>" +
+            "</tr>";
+        return display;
+    }
+    function viewClass(id){
+        $("#search").hide();
+        for(var i in rawEvents){
+            if(rawEvents[i].objectId === id){
+                event = rawEvents[i];
+            }
+        }
+        buildView();
+        $("#class").show();
+    }
+    function buildView(){
+        $("#view").show();
+        $("#img").attr("src", event.picUrl);
+        $("#className").html(event.name);
+        $("#description").html(event.description);
+        $("#ageRange").html(event.ageRange);
+        $("#grade").html(event.grade);
+        $("#frequency").html(event.frequency);
+        $("#cost").html(event.cost);
+        $("#dateRange").html(event.dateRange);
+        $("#location").html(event.location);
+        $("#limitations").html(event.limitations);
+    }
+    function back(){
+        $("#class").hide();
+        $("#search").show();
+    }
+    function cat(subject){
+        //alert(subject);
+        if(subjects.search(subject+" ") === -1){
+            var cat = $("#subject").html();
+            subjects += (subject+" ");
+            $("#subject").html(cat+"<button id='"+subject+"' class='btn btn-secondary' onclick=\"remove('"+subject+"')\">"+subject+"</button>");
+            //$("#subject").val(cat + subject + " ");
+        }
+    }
+    function remove(subject){
+        //alert(subject);
+        subjects = subjects.replace(subject+" ","");
+        $("#"+subject).remove();
+    }
+</script>
+</html>

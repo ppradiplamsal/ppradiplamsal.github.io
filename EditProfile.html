@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <title>Search Event</title>
+
+    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap-social.css">
+    <link rel="stylesheet" href="../assets/css/fa-brands.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script src="../assets/js/scripts.js"></script>
+    <script src="../assets/jquery.min.js"></script>
+    <script src="../assets/jquery-ui.min.js"></script>
+    <script src="//api.backendless.com/sdk/js/latest/backendless.min.js"></script>
+</head>
+    <script>
+        var APP_ID = '41E7CE4A-EDEC-6FC2-FF34-B6CD05DAFC00';
+        var API_KEY = 'EF68F6B0-AD70-0DB8-FF34-F79D27839900';
+        Backendless.initApp(APP_ID, API_KEY);
+    </script>
+    <header>
+
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark" >
+            <a class="navbar-brand" href="home.html">
+                <img src="https://api.backendless.com/41E7CE4A-EDEC-6FC2-FF34-B6CD05DAFC00/8420C1D6-C7E6-F070-FFEF-06154CAE8500/files/web/pictures/icon-256px.png" width="64" height="64" class="d-inline-block align-top" alt="">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="SearchEvent.html">Find Classes</a>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Schedule</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a id="orgTab" onclick="getOrgs()" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Organization List
+                        </a>
+
+                        <div id="orgSelect" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item"><div class="loadersmall"></div></a>
+                        </div>
+
+                    </li>
+
+                </ul>
+
+
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="EditProfile.html">Profile</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Settings</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="login2.html">Logout</a>
+                    </li>
+
+                </ul>
+
+                <script>
+                    if(localStorage["orgName"] != null){
+                        $("#orgTab").html(localStorage["orgName"]);
+                    }
+                    function getOrgs(){
+                        Backendless.CustomServices.invoke("Service", "GetOrganizationMembership").then(function(orgs){
+                            var orgString = "";
+                            for(var i in orgs){
+                                orgString += "<button onclick=\"setCurrentOrg('"+orgs[i].objectId+","+orgs[i].name+"')\" class='dropdown-item'>"+orgs[i].name+"</button>"
+                            }
+                            $("#orgSelect").html(orgString);
+                        }).catch(function(error){
+                            alert(error.message);
+                        });
+                    }
+                    function setCurrentOrg(org){
+                        var orgInfo = org.split(",");
+                        $("#orgTab").html(orgInfo[1]);
+                        localStorage["orgID"] = orgInfo[0];
+                        localStorage["orgName"] = orgInfo[1];
+                    }
+                </script>
+
+            </div>
+        </nav>
+
+        <div class="alert alert-secondary alert-dismissible fade show" style="text-align: center"role="alert">
+            Please ensure that you do not disclose detailed information about minors. Beware of all users who you do not personally know!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+    </header>
+
+    <body class="bg-light" data-gr-c-s-loaded="true">
+
+        <div class="container">
+            <div class="py-5">
+                
+                <h2 id="pageName" class="mb-3 text-center">Finish Profile</h2>
+                <hr class="mb-4">
+                <div class="needs-validation" novalidate="">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <h6>First Name</h6>
+                            <input type="text" class="form-control" id="firstName" placeholder="First" disabled="true">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <h6>Last Name</h6>
+                            <input type="text" class="form-control" id="lastName" placeholder="Last" disabled="true">
+                            <div class="invalid-feedback">
+                                Valid last name is required.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6>Email</h6>
+                        <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                        <div class="invalid-feedback">
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <h6>D.O.B</h6>
+                            <input id="dob" type="date" class="form-control" placeholder="MM/DD/YYYY">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <h6>Phone Number</h6>
+                            <input id="phone" type="text" class="form-control bfh-phone" placeholder="(XXX)-XXX-XXXX" data-country="US">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6>Bio</h6>
+                        <textarea class="form-control" id="bio" rows="3"></textarea>
+                    </div>
+
+                    
+                
+                
+                    <hr class="mb-4">
+                    <div class="custom-control custom-checkbox">
+                        <h6>* You can authenticate teacher status after profile completion</h6>
+                    </div>
+                    <br>
+                    
+                    <button class="btn btn-primary btn-lg btn-block" onclick="updateInfo()">Continue</button>
+                </div>
+
+                <script>
+
+                    window.onload=setup;
+                    var user;
+
+                    function setup(){
+                        try {
+                            Backendless.UserService.getCurrentUser().then( function( currentUser ) {
+                                user = currentUser;
+                                finishCheck();
+                                addName();
+                            }).catch( function( fault ) {
+                                alert(fault.message);
+                            });
+                        }
+                        catch(error){
+                            alert(error);
+                        }
+                    }
+
+                    function finishCheck(){
+                        if(user.didFinishSignIn){
+                            $("#pageName").html("Edit Profile");
+                        }
+                    }
+
+                    function addName(){
+                        $("#firstName").attr("placeholder", user.fname);
+                        $("#lastName").attr("placeholder", user.lname);
+                    }
+
+                    function updateInfo(){
+                        if(document.getElementById("email").value !=""){
+                            user.email2 = document.getElementById("email").value;
+                        }
+                        if(document.getElementById("bio").value != ""){
+                            user.bio = document.getElementById("bio").value;
+                        }
+                        if(document.getElementById("phone").value != ""){
+                            user.phone = document.getElementById("phone").value;
+                        }
+                        user.didFinishSignIn = true;
+                        if(document.getElementById("dob").value != ""){
+                            user.dateOfBirth = document.getElementById("dob").value.toString();
+                        }
+
+                        Backendless.UserService.update(user).then( function( updatedUser ) {
+                            window.location.replace("home.html");
+                        }).catch( function( fault ) {
+                            alert(fault.message);
+                        });
+                    }
+                </script>
+
+            </div>
+            <footer class="my-5 pt-5 text-muted text-center text-small">
+                <p class="mb-1">© 2017-2018 Red 6</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="#">About Us</a></li>
+                    <li class="list-inline-item"><a href="#">Disclaimer</a></li>
+                    <li class="list-inline-item"><a href="#">Contact Us</a></li>
+                </ul>
+            </footer>
+        </div>
+
+    </body>
+
+    <script src="../assets/js/zepto.js"></script>
+    <script src="../assets/js/app.js"></script>
+
+
+</html>

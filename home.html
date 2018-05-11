@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <title>Home</title>
+
+    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap-social.css">
+    <link rel="stylesheet" href="../assets/css/fa-brands.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script src="../assets/js/scripts.js"></script>
+    <script src="../assets/jquery.min.js"></script>
+    <script src="../assets/jquery-ui.min.js"></script>
+    <script src="//api.backendless.com/sdk/js/latest/backendless.min.js"></script>
+</head>
+
+<script>
+    var APP_ID = '41E7CE4A-EDEC-6FC2-FF34-B6CD05DAFC00';
+    var API_KEY = 'EF68F6B0-AD70-0DB8-FF34-F79D27839900';
+    Backendless.initApp(APP_ID, API_KEY);
+</script>
+
+<header>
+
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark" >
+            <a class="navbar-brand" href="home.html">
+                <img src="https://api.backendless.com/41E7CE4A-EDEC-6FC2-FF34-B6CD05DAFC00/8420C1D6-C7E6-F070-FFEF-06154CAE8500/files/web/pictures/icon-256px.png" width="64" height="64" class="d-inline-block align-top" alt="">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="SearchEvent.html">Find Classes</a>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Schedule</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a id="orgTab" onclick="getOrgs()" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Organization List
+                        </a>
+
+                        <div id="orgSelect" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item"><div class="loadersmall"></div></a>
+                        </div>
+
+                    </li>
+
+                </ul>
+
+
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="EditProfile.html">Profile</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Settings</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="login2.html">Logout</a>
+                    </li>
+
+                </ul>
+
+                <script>
+                    if(localStorage["orgName"] != null){
+                        $("#orgTab").html(localStorage["orgName"]);
+                    }
+                    function getOrgs(){
+                        Backendless.CustomServices.invoke("Service", "GetOrganizationMembership").then(function(orgs){
+                            var orgString = "";
+                            for(var i in orgs){
+                                orgString += "<button onclick=\"setCurrentOrg('"+orgs[i].objectId+","+orgs[i].name+"')\" class='dropdown-item'>"+orgs[i].name+"</button>"
+                            }
+                            $("#orgSelect").html(orgString);
+                        }).catch(function(error){
+                            alert(error.message);
+                        });
+                    }
+                    function setCurrentOrg(org){
+                        var orgInfo = org.split(",");
+                        $("#orgTab").html(orgInfo[1]);
+                        localStorage["orgID"] = orgInfo[0];
+                        localStorage["orgName"] = orgInfo[1];
+                    }
+                </script>
+
+            </div>
+        </nav>
+
+        <div class="alert alert-secondary alert-dismissible fade show" style="text-align: center"role="alert">
+            Please ensure that you do not disclose detailed information about minors. Beware of all users who you do not personally know!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+</header>
+    
+<body class="bg-light" data-gr-c-s-loaded="true">
+
+
+<div class="container">
+
+    <div class="row">
+        
+        
+        <div class="col-12 col-md-6 order-md-2 mb-4" id="ButtonsDiv" >
+            
+            <ul class="list-group mb-3">
+                <li>
+                    <div>
+                        <a class="list-group-item d-flex justify-content-between lh-condensed" href="EditProfile.html">Edit Profile</a>
+                        <small class="text-muted">Edit your profile here</small>
+                    </div>
+                </li>
+
+
+                <li>
+                    <div>
+                        <a class="list-group-item d-flex justify-content-between lh-condensed" href="CreateClass.html">Create Class</a>
+                        <small class="text-muted">Create a new class here</small>
+                    </div>
+                </li>
+
+
+                <li>
+                    <div>
+                        <a class="list-group-item d-flex justify-content-between lh-condensed" href="search.html">Search User</a>
+                        <small class="text-muted">Search for a user in your organization here</small>
+                    </div>
+                </li>
+            </ul>
+
+
+        </div>
+        
+        <div class="col-12 col-md-6 order-md-2 mb-4" id="AssignmentsDiv" >
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text">Assignments</span>
+            <span class="badge badge-secondary badge-pill">3</span>
+          </h4>
+
+          <ul class="list-group mb-3">
+
+              <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0">Name</h6>
+                <small class="text-muted">Brief description</small>
+              </div>
+              <span class="text-muted">11pm</span>
+            </li>
+              <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0">Name</h6>
+                <small class="text-muted">Brief description</small>
+              </div>
+              <span class="text-muted">1 Alert(s)</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between bg-light">
+              <div class="text-success">
+                <h6 class="my-0">Green</h6>
+                <small>brief description</small>
+              </div>
+              <span class="text-success">7pm, Feb 21st</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Event</span>
+              <strong>Mar 21st, 7pm</strong>
+            </li>
+          </ul>
+
+
+        </div>
+
+        <div class="col-12  order-md-1 col-md-6">
+            <h4 class="mb-3">Classes</h4>
+            <ul class="list-group mb-3">
+                <li class="list-group-item d-flex justify-content-between">
+                    <input type="text" class="form-control" placeholder="Add Class...">
+
+                    <button type="submit" class="btn btn-secondary">Search</button>
+                </li>
+
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                        <h6 class="my-0">Class Name</h6>
+                        <small class="text-muted">Brief description</small>
+                    </div>
+                    <span class="text-muted">5 Alert(s)</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                        <h6 class="my-0">Class Name</h6>
+                        <small class="text-muted">Brief description</small>
+                    </div>
+                    <span class="text-muted">1 Alert(s)</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between bg-light">
+                    <div class="text-success">
+                        <h6 class="my-0">Green Class</h6>
+                        <small>brief description</small>
+                    </div>
+                    <span class="text-success">3 Alert(s)</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Event</span>
+                    <strong>Mar 21st, 7pm</strong>
+                </li>
+            </ul>
+        </div>
+        
+    </div>
+
+
+    <script>
+
+        //var loggedInUser = Backendless.UserService.loginSync( "luke@skywalker.com", "theforce", true);  // test code: dummy login
+        var isInstructor = Backendless.CustomServices.invoke("Service", "IsInstructor");
+        //var isAdmin = Backendless.CustomServices.invoke("Service", "IsAdmin");
+        document.getElementById("ButtonsDiv").style.display = !isInstructor ? "none" : "block";
+        document.getElementById("AssignmentsDiv").style.display = isInstructor ? "none" : "block";
+        //document.getElementById("modifyMember").style.display = isAdmin ? "block" : "none";
+        //userHome();
+        // function userHome(){
+        //     Backendless.CustomServices.invoke("Service", "IsInstructor").then(function(isInstructor){
+        //         document.getElementById("ButtonsDiv").style.display = !isInstructor ? "none" : "block";
+        //         document.getElementById("AssignmentsDiv").style.display = isInstructor ? "none" : "block";
+        //         Backendless.CustomServices.invoke("Service", "IsAdmin").then(function(isAdmin){
+        //             document.getElementById("modifyMember").style.display = isAdmin ? "block" : "none";
+        //         }).catch(function(error){
+        //             alert(error.message);
+        //         });
+        //     }).catch(function(error){
+        //         alert(error.message);
+        //     });
+        // }
+    </script>
+    
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">© 2017-2018 Company Name</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">About Us</a></li>
+            <li class="list-inline-item"><a href="#">Disclaimer</a></li>
+            <li class="list-inline-item"><a href="#">Contact Us</a></li>
+        </ul>
+    </footer>
+</div>
+
+
+
+</body>
+
+</html>
