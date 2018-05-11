@@ -1,0 +1,172 @@
+body{
+    background: rgb(50, 56, 63);
+    font: 12px Arial, Helvetica, sans-serif;
+}
+.form{
+	text-align:center;
+	background:#fff;
+	margin:150px 0 0 -200px;
+	width:400px;
+	position:relative;
+	left:50%;
+    -webkit-box-shadow: 0 0 12px #E7E7E7;
+    -moz-box-shadow: 0 0 12px #E7E7E7;
+    box-shadow: 0 0 12px #E7E7E7;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+label{
+	float: left;
+	margin: 5px 0 0 30px;
+    color:#666;
+    font-size:12px;
+}
+label[for=login]{
+	margin: 5px -13px 0 30px;
+}
+input{
+    color: #666666!important;
+    font-size: 12px!important;
+    border: 1px solid #919191!important;
+    -webkit-box-shadow: inset 1px 1px 3px rgba(128, 128, 128, 0.2);
+    -moz-box-shadow: inset 1px 1px 3px rgba(128, 128, 128, 0.2);
+    box-shadow: inset 1px 1px 3px rgba(128, 128, 128, 0.2);
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+.redBorder{
+    border:1px solid red!important;
+}
+.btn-info, .btn-success{
+    height: 34px;
+    color: #fff;
+    font-size:14px!important;
+    padding: 0 20px;
+    text-align: center;
+    cursor: pointer;
+    border:0px!important;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    text-shadow: 0 1px 2px #333333;
+}
+
+.btn-success{
+    background: #71b239;
+    background-image: -webkit-linear-gradient(top, #7cbe3a, #5a9b39);
+    background-image: -moz-linear-gradient(top, #7cbe3a, #5a9b39);
+    background-image: -ms-linear-gradient(top, #7cbe3a, #5a9b39);
+    background-image: -o-linear-gradient(top, #7cbe3a, #5a9b39);
+    background-image: linear-gradient(top, #7cbe3a, #5a9b39);
+    border-top: 1px solid #afafaf;
+    border-right: 1px solid #919191;
+    border-bottom: 1px solid #919191;
+    border-left: 1px solid #afafaf;
+    text-decoration:none;
+}
+
+.btn-success:hover{
+    background: #71b239;
+    background-image: -webkit-linear-gradient(top, #5a9b39, #71b239);
+    background-image: -moz-linear-gradient(top, #5a9b39, #71b239);
+    background-image: -ms-linear-gradient(top, #5a9b39, #71b239);
+    background-image: -o-linear-gradient(top, #5a9b39, #71b239);
+    background-image: linear-gradient(top, #5a9b39, #71b239);
+    text-decoration:none;
+}
+h5{
+    color:#666666;
+    font-size:14px;
+}
+
+.info {
+    font-size: 11px;
+    width: inherit;
+    color: rgb(155, 155, 155);
+    margin:0px 0 10px 0;
+}
+.thankTemp .block{
+	padding:15px;
+}
+#back{
+    padding: 9px;
+    position: relative;
+    top: 2px;
+    text-decoration:none;
+}
+.btn-info:hover{
+    background: #3097B5;
+    background-image: -webkit-linear-gradient(top, #3097B5, #53B8D6);
+    background-image: -moz-linear-gradient(top, #3097B5, #53B8D6);
+    background-image: -ms-linear-gradient(top, #3097B5, #53B8D6);
+    background-image: -o-linear-gradient(top, #3097B5, #53B8D6);
+    background-image: linear-gradient(top, #3097B5, #53B8D6);
+}
+.back{
+    padding: 9px;
+    margin: 9px 5px;
+    font-size: 18px;
+    position: relative;
+    top: 0px;
+    text-decoration: none!important;
+}
+.popup {
+    max-width: 300px;
+    padding: 10px 15px;
+    color: rgb(220, 220, 220);
+    opacity: 0;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    position: fixed;
+    top: 30px;
+    right: -120px;
+}
+
+.error {
+    background-color: rgba(255, 27, 0, 0.5);
+}
+
+.success {
+    background-color: rgba(50, 170, 0, 0.60);
+}
+.block #remember{
+    float: left;
+    margin: 5px 0 0 115px;
+}
+.block .remember{
+    margin: 1px 0 0 5px;
+}
+                                
+.logined{display:none}
+.login .soc_logins{
+	padding-left:35px;
+}
+                                
+#fb_login{
+    background: url(../assets/btn_facebook_bg.png) no-repeat 0 0;
+    width: 206px;
+    border: 0px;
+    color: #fff;
+    padding: 10px 10px 10px 40px;
+    margin:10px 0 0 0;
+}
+
+.loadersmall {
+    border: 6px solid #f3f3f3;
+    animation: spin 1s linear infinite;
+    border-top: 6px solid #555;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+}
+
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+                                

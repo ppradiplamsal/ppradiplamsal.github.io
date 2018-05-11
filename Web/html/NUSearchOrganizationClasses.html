@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="author" content="">
+
+        <title>Search Class</title>
+
+        <link rel="stylesheet" href="../assets/css/app.css">
+
+        <link rel="stylesheet" href="../assets/css/bootstrap-social.css">
+        <link rel="stylesheet" href="../assets/css/fa-brands.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <script src="../assets/js/scripts.js"></script>
+        <script src="../assets/jquery.min.js"></script>
+        <script src="../assets/jquery-ui.min.js"></script>
+        <script src="//api.backendless.com/sdk/js/latest/backendless.min.js"></script>
+
+
+        <!-- These are the auto-complete files-->
+        <link rel="stylesheet" href="../assets/css/travisAuto.css">
+        <script src="../assets/js/travisAuto.js"></script>
+
+    </head>
+
+    <script>
+        var APP_ID = '41E7CE4A-EDEC-6FC2-FF34-B6CD05DAFC00';
+        var API_KEY = 'EF68F6B0-AD70-0DB8-FF34-F79D27839900';
+        Backendless.initApp(APP_ID, API_KEY);
+    </script>
+
+    <body class="bg-light" data-gr-c-s-loaded="true">
+
+    <header>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="home.html"><img src="https://api.backendless.com/41E7CE4A-EDEC-6FC2-FF34-B6CD05DAFC00/8420C1D6-C7E6-F070-FFEF-06154CAE8500/files/web/pictures/icon-256px.png" alt="" width="64" height="64"></a>
+            </div>
+
+            <div class="navbar-collapse collapse" id="navbarCollapse" style="">
+                <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Class Schedule</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="NUSearchOrganizationClasses.html">Find Classes</a>
+                    </li>
+
+                </ul>
+
+                <style>
+                    h2 {
+                        position:absolute;
+                        left:440px;
+                        top:60px;
+                        color:red;
+                        font-size: 20px;
+                    }
+                </style>
+
+                <h2 align="center">PLEASE DO NOT SEND YOUR CHILDREN TO CLASSES AND EVENTS HOSTED BY STRANGERS </h2>
+
+                <ul class="navbar-nav navbar-right">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="EditProfile.html">Profile</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Settings</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <br/><br/><br/><br/><br/>
+
+        <div>
+            <div class="container">
+                <div class="ui">
+                    <div id="search">
+                        <div class="form-group">
+                            <label for="name"><h4>Organization Search</h4></label>
+                            <div class="input-group mb-3">
+                                <input type="text" id="name" class="form-control" placeholder="Organization Name" aria-label="Organization Name" aria-describedby="basic-addon2">
+                            </div>
+                        </div>
+                        <div id="classSearch" class="form-group" style="display: none">
+                            <label for="class"><h4>Class Search</h4></label>
+                            <div class="input-group mb-3">
+                                <input type="text" id="class" class="form-control" placeholder="Class Name" aria-label="Class Name" aria-describedby="basic-addon2">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="view" style="display: none">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <img id="img" style="border-radius: 10px" class="img-fluid"/>
+                            </div>
+
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <h1 id="className"></h1>
+                                </div>
+                                <div class="row">
+                                    <p id="description"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br/>
+
+                        <div class="row" style="border-left: 1px solid; border-right: 1px solid; border-top: 1px solid">
+                            <div class="col-sm-6" style="border-right: 1px solid">
+                                <div class="d-flex flex-column bd-highlight mb-3">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="p-2 bd-highlight">Age Range:</div>
+                                            <div class="p-2 bd-highlight">Date Range:</div>
+                                            <div class="p-2 bd-highlight">Location:</div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div id="ageRange" class="p-2 bd-highlight"></div>
+                                            <div id="dateRange" class="p-2 bd-highlight"></div>
+                                            <div id="location" class="p-2 bd-highlight"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="d-flex flex-column bd-highlight mb-3">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="p-2 bd-highlight">Grade:</div>
+                                            <div class="p-2 bd-highlight">Cost:</div>
+                                            <div class="p-2 bd-highlight">Frequency:</div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div id="grade" class="p-2 bd-highlight"></div>
+                                            <div id="cost" class="p-2 bd-highlight"></div>
+                                            <div id="frequency" class="p-2 bd-highlight"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="border: 1px solid">
+                            <div class="col-sm-12">
+                                <div class="text-center"><h6>Requirements</h6></div>
+                                <div id="limitations" class="p-2 bd-highlight; text-center"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <script>
+                        // Script to perform search
+
+                        var orgs;
+                        var classes;
+                        var event;
+
+                        try {
+                            Backendless.UserService.getCurrentUser().then( function( user ) {
+                                getOrgs();
+                            }).catch( function( fault ) {
+                                alert(fault.message);
+                            });
+                        }
+                        catch(error){
+                            alert(error);
+                        }
+
+                        function getOrgs(){
+                            Backendless.CustomServices.invoke("Service", "GetOrganizationMembership").then( function( organizations ) {
+                                orgs = organizations;
+                                autoOrg();
+                            }).catch( function( fault ) {
+                                alert(fault.message);
+                            });
+                        }
+
+                        function createComponentData(){
+                            var components = [];
+                            var length = orgs.length;
+                            for(var i=0; i < length; i++){
+                                components[i] = {label: orgs[i].name, value: orgs[i].name, obID: orgs[i].objectId};
+                            }
+                            return components;
+                        }
+
+                        function createDisplayData(orgID){
+                            var currentOrg = getOrgByID(orgID);
+                            var display = {name: currentOrg.name, pic: currentOrg.picUrl, objectId: currentOrg.objectId};
+                            return display;
+                        }
+
+                        function getOrgByID(orgID){
+                            var length = orgs.length;
+                            for(var i=0; i<length; i++){
+                                if(orgs[i].objectId === orgID){
+                                    return orgs[i];
+                                }
+                            }
+                        }
+
+                        function autoOrg() {
+                            $(function () {
+                                $("#name").autocomplete({source: createComponentData()})
+                                    .data("ui-autocomplete")._renderItem = function (ul, item) {
+                                    var display = createDisplayData(item.obID);
+                                    return $("<li></li>")
+                                        .data("item.autocomplete", item)
+                                        .append(frontDiv(display) + "<a>" + "<img style='width:48px;height:48px' src='" + display["pic"] + "' /> " + display["name"] + "</a><\div>").appendTo(ul);
+                                };
+                            });
+                        }
+
+                        function frontDiv(item) {
+                            //Ignore this - this is too help with the onclick callback function
+                            var objID = item["objectId"];
+                            var funcName = "didClickAutoButton('"+objID+"')";
+                            return "<div onclick="+funcName+">";
+                        }
+
+                        function didClickAutoButton(objID) {
+                            Backendless.CustomServices.invoke("Service", "GetOrganizationClasses", objID).then( function( retrievedClasses ) {
+                                classes = retrievedClasses;
+                                $("#classSearch").show();
+                                autoClass();
+                            }).catch( function( fault ) {
+                                alert(fault.message);
+                            });
+                        }
+
+                        function autoClass(){
+                            $(function () {
+                                $("#class").autocomplete({source: createClassData()})
+                                    .data("ui-autocomplete")._renderItem = function (ul, item) {
+                                    var display = createClassDisplay(item.obID);
+                                    return $("<li></li>")
+                                        .data("item.autocomplete", item)
+                                        .append(classFrontDiv(display) + "<a>" + "<img style='width:48px;height:48px' src='" + display["pic"] + "' /> " + display["name"] + "</a><\div>").appendTo(ul);
+                                };
+                            });
+                        }
+
+                        function createClassData(){
+                            var components = [];
+                            var length = classes.length;
+                            for(var i=0; i < length; i++){
+                                components[i] = {label: classes[i].name, value: classes[i].name, obID: classes[i].objectId};
+                            }
+                            return components;
+                        }
+
+                        function createClassDisplay(classID){
+                            var currentClass = getClassByID(classID);
+                            var display = {name: currentClass.name, pic: currentClass.picUrl, objectId: currentClass.objectId};
+                            return display;
+                        }
+
+                        function getClassByID(classID){
+                            var length = classes.length;
+                            for(var i=0; i<length; i++){
+                                if(classes[i].objectId === classID){
+                                    return classes[i];
+                                }
+                            }
+                        }
+
+                        function classFrontDiv(item) {
+                            //Ignore this - this is too help with the onclick callback function
+                            var objID = item["objectId"];
+                            var funcName = "autoButton('"+objID+"')";
+                            return "<div onclick="+funcName+">";
+                        }
+
+                        function findClassByID(id){
+                            var length = classes.length;
+                            for(var i=0; i<length; i++){
+                                if(classes[i].objectId === id){
+                                    return classes[i];
+                                }
+                            }
+                        }
+
+                        function autoButton(objID) {
+                            $("#search").hide();
+                            event = findClassByID(objID);
+                            buildView();
+                        }
+
+                        function buildView(){
+                            $("#view").show();
+                            $("#img").attr("src", event.picUrl);
+                            $("#className").html(event.name);
+                            $("#description").html(event.description);
+                            $("#ageRange").html(event.ageRange);
+                            $("#grade").html(event.grade);
+                            $("#frequency").html(event.frequency);
+                            $("#cost").html(event.cost);
+                            $("#dateRange").html(event.dateRange);
+                            $("#location").html(event.location);
+                            $("#limitations").html(event.limitations);
+                        }
+                    </script>
+                </div>
+            </div>
+            <footer class="my-5 pt-5 text-muted text-center text-small">
+                <p class="mb-1">© 2017-2018 Company Name</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="#">Privacy</a></li>
+                    <li class="list-inline-item"><a href="#">Terms</a></li>
+                    <li class="list-inline-item"><a href="#">Support</a></li>
+                </ul>
+            </footer>
+        </div>
+    </body>
+</html>

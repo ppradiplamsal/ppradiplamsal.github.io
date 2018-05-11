@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <title>Search Class</title>
+
+    <link rel="stylesheet" href="../assets/css/app.css">
+
+    <link rel="stylesheet" href="../assets/css/bootstrap-social.css">
+    <link rel="stylesheet" href="../assets/css/fa-brands.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="../assets/js/scripts.js"></script>
+    <script src="../assets/jquery.min.js"></script>
+    <script src="../assets/jquery-ui.min.js"></script>
+    <script src="//api.backendless.com/sdk/js/latest/backendless.min.js"></script>
+
+
+    <!-- These are the auto-complete files-->
+    <link rel="stylesheet" href="../assets/css/travisAuto.css">
+    <script src="../assets/js/travisAuto.js"></script>
+
+</head>
+
+<script>
+    var APP_ID = '41E7CE4A-EDEC-6FC2-FF34-B6CD05DAFC00';
+    var API_KEY = 'EF68F6B0-AD70-0DB8-FF34-F79D27839900';
+    Backendless.initApp(APP_ID, API_KEY);
+</script>
+
+<body class="bg-light" data-gr-c-s-loaded="true">
+
+<header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-header">
+            <a class="navbar-brand" href="home.html"><img src="https://api.backendless.com/41E7CE4A-EDEC-6FC2-FF34-B6CD05DAFC00/8420C1D6-C7E6-F070-FFEF-06154CAE8500/files/web/pictures/icon-256px.png" alt="" width="64" height="64"></a>
+        </div>
+
+        <div class="navbar-collapse collapse" id="navbarCollapse" style="">
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Class Schedule</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="NUSearchOrganizationClasses.html">Find Classes</a>
+                </li>
+
+            </ul>
+
+            <style>
+                h2 {
+                    position:absolute;
+                    left:440px;
+                    top:60px;
+                    color:red;
+                    font-size: 20px;
+                }
+            </style>
+
+            <h2 align="center">PLEASE DO NOT SEND YOUR CHILDREN TO CLASSES AND EVENTS HOSTED BY STRANGERS </h2>
+
+            <ul class="navbar-nav navbar-right">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="EditProfile.html">Profile</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Settings</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<br/><br/><br/><br/><br/>
+
+<div>
+    <div class="container">
+        <div class="ui">
+            <div id="search">
+                <div class="form-group">
+                    <label for="name"><h4>Organization Search</h4></label>
+                    <div class="input-group mb-3">
+                        <input type="text" id="name" class="form-control" placeholder="Organization Name" aria-label="Organization Name" aria-describedby="basic-addon2">
+                    </div>
+                </div>
+            </div>
+
+            <div id="view" style="display: none">
+                <h4>Select Members to Remove</h4>
+                <div id="display"></div>
+                <input type="button" onclick="update()" value="Submit">
+            </div>
+
+
+
+            <script>
+                // Script to perform search
+
+                var orgs;
+                var members;
+                var orgId;
+
+                try {
+                    Backendless.UserService.getCurrentUser().then( function( user ) {
+                        getOrgs();
+                    }).catch( function( fault ) {
+                        alert(fault.message);
+                    });
+                }
+                catch(error){
+                    alert(error);
+                }
+                function test(name) {
+                    if (name.length>2) {
+                        return true;
+                    }
+                    else return false;
+                }
+
+
+                function getOrgs(){
+                    Backendless.CustomServices.invoke("Service", "GetAdminOrganizations").then( function( organizations ) {
+                        orgs = organizations;
+                        autoOrg();
+                    }).catch( function( fault ) {
+                        alert(fault.message);
+                    });
+                }
+
+                function createComponentData(){
+                    var components = [];
+                    var length = orgs.length;
+                    for(var i=0; i < length; i++){
+                        components[i] = {label: orgs[i].name, value: orgs[i].name, obID: orgs[i].objectId};
+                    }
+                    return components;
+                }
+
+                function createDisplayData(orgID){
+                    var currentOrg = getOrgByID(orgID);
+                    var display = {name: currentOrg.name, pic: currentOrg.picUrl, objectId: currentOrg.objectId};
+                    return display;
+                }
+
+                function getOrgByID(orgID){
+                    orgId = orgID;
+                    var length = orgs.length;
+                    for(var i=0; i<length; i++){
+                        if(orgs[i].objectId === orgID){
+                            return orgs[i];
+                        }
+                    }
+                }
+
+                function autoOrg() {
+                    $(function () {
+                        $("#name").autocomplete({source: createComponentData()})
+                            .data("ui-autocomplete")._renderItem = function (ul, item) {
+                            var display = createDisplayData(item.obID);
+                            return $("<li></li>")
+                                .data("item.autocomplete", item)
+                                .append(frontDiv(display) + "<a>" + "<img style='width:48px;height:48px' src='" + display["pic"] + "' /> " + display["name"] + "</a><\div>").appendTo(ul);
+                        };
+                    });
+                }
+
+                function frontDiv(item) {
+                    //Ignore this - this is too help with the onclick callback function
+                    var objID = item["objectId"];
+                    var funcName = "didClickAutoButton('"+objID+"')";
+                    return "<div onclick="+funcName+">";
+                }
+
+                function didClickAutoButton(objID) {
+                    Backendless.CustomServices.invoke("Service", "GetOrgMembers", objID).then( function( retrievedMembers ) {
+                        members = retrievedMembers;
+                        createMembersList();
+                        $("#view").show();
+                    }).catch( function( fault ) {
+                        alert(fault.message);
+                    });
+                }
+
+                function createMembersList(){
+                    var length = members.length;
+                    var radios = "";
+                    for(var i=0; i<length; i++){
+                        radios += createMember(members[i], i);
+                    }
+                    $("#display").html(radios);
+                }
+
+                function createMember(member, i){
+
+                    //alert(JSON.stringify(member));
+
+                    //$("#display").("<div class='row'><input type='radio'/><img src='"+member.picUrl+"'/><label>"+member.fname+" "+member.lname+"</label></div>")
+                    return "<div class='row'><input id='"+i+"' type='checkbox' value='"+member.objectId+"'/><img height='50px' width='50px' style='border-radius: 10px' src='"+member.picUrl+"'/><label>"+member.fname+" "+member.lname+"</label></div>"
+                }
+
+                function update(){
+                    var remove = [];
+                    var length = members.length;
+                    for(var i=0; i<length; i++){
+                        if(document.getElementById(i.toString()).checked == true){
+                            remove.push(members[i]);
+                        }
+                    }
+
+                    var args = {
+                        members: remove,
+                        orgID: orgId
+                    }
+
+                    Backendless.CustomServices.invoke("Service", "DeleteOrgMembers", args).then( function( ret ) {
+                        didClickAutoButton(orgId);
+                        //updateDiv();
+                    }).catch( function( fault ) {
+                        alert(fault.message);
+                    });
+                }
+            </script>
+        </div>
+    </div>
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">© 2017-2018 Company Name</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacy</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Support</a></li>
+        </ul>
+    </footer>
+</div>
+</body>
+</html>

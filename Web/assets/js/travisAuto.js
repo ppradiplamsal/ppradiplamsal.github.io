@@ -1,0 +1,3 @@
+function createThingy() {
+    alert("aye")
+}
