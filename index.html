@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.9.0/d3-legend.js"></script>
+    <script type="text/javascript" src="js/ttst.js"></script>
+
+    <link rel="stylesheet" href="css/stylett.css">
+</head>
+<body style="background-color:hsl(0, 0%, 86%);">
+<div class="row" style="text-align: center" >
+    <h2>
+        Crime in the United States in 2015/16
+    </h2>
+    <HR>
+</div>
+<hr>
+<div class = "row">
+    <div class="col-sm-12 center-align form-group">
+        <label for="dataset" style="font-size: 20px">Make a Selection for Visualization</label>
+        <select class="form-control" id="dataset" onchange="updateMap(value)" style="width: 25%;margin: auto">
+            <option selected value='Population'>POPULATION</option>
+            <option value='Robbery'>ROBBERY</option>
+            <option value='Motor_theft'>MOTOR THEFT</option>
+            <option value='Murder'>MURDER</option>
+            <option value='Burglary'>BURGLARY</option>
+            <option value='Rape_legacy'>RAPE(LEGACY DEFINITION)</option>
+            <option value='Rape_revised'>RAPE(REVISED DEFINITION)</option>
+        </select>
+    </div>
+</div>
+
+<div class="row">
+    <div  class="col-sm-7 pull-left" id="map-view"> </div>
+</div>
+
+</body>
+</html>

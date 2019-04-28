@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.9.0/d3-legend.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="js/map.js"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="row" style="text-align: center">
+    <h2>
+        Crime in US using Visualizations in D3
+    </h2>
+    <HR>
+</div>
+<hr>
+<div class = "row">
+    <div class="col-sm-12 center-align form-group">
+        <label for="dataset" style="font-size: 20px">Select the factor to visualize</label>
+        <select class="form-control" id="dataset" onchange="updateMap(value)" style="width: 25%;margin: auto">
+            <option selected value='UNEMPLOYMENT_RATE'>MURDER</option>
+            <option value='POPULATION'>POPULATION</option>
+            <option value='AVERAGE_SALARY/MON'>ROBBERY</option>
+            <option value='PRICE/FT.'>VIOLENT CRIME</option>
+            <option value='MORTALITY_RATE'>RAPE</option>
+        </select>
+    </div>
+</div>
+
+<div class="row">
+    <div  class="col-sm-7 pull-left" id="map-view"> </div>
+</div>
+
+</body>
+</html>
