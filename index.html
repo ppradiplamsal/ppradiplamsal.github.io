@@ -3,33 +3,30 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://d3js.org/d3.v4.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.9.0/d3-legend.js"></script>
-    <script type="text/javascript" src="js/ttst.js"></script>
+    <script type="text/javascript" src="js/visualize.js"></script>
 
-    <link rel="stylesheet" href="css/stylett.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body style="background-color:hsl(0, 0%, 86%);">
 <div class="row" style="text-align: center" >
-    <h2>
-        Crime in the United States in 2015/16
+    <h2 style="font-size: 50px;font-family: impact">
+        Crime in the United States in 2015-16
     </h2>
-    <HR>
+    <hr>
 </div>
 <hr>
 <div class = "row">
     <div class="col-sm-12 center-align form-group">
-        <label for="dataset" style="font-size: 20px">Make a Selection for Visualization</label>
+        <label for="dataset" style="font-size: 30px; font-family: georgia">Make a Selection for Visualization</label><br><br>
         <select class="form-control" id="dataset" onchange="updateMap(value)" style="width: 25%;margin: auto">
-            <option selected value='Population'>POPULATION</option>
-            <option value='Robbery'>ROBBERY</option>
-            <option value='Motor_theft'>MOTOR THEFT</option>
-            <option value='Murder'>MURDER</option>
-            <option value='Burglary'>BURGLARY</option>
-            <option value='Rape_legacy'>RAPE(LEGACY DEFINITION)</option>
-            <option value='Rape_revised'>RAPE(REVISED DEFINITION)</option>
+            <option selected value='Population' style="font-size: 25px; font-family: courier; font-weight: bold">POPULATION</option>
+            <option value='Robbery' style="font-size: 25px; font-family: courier; font-weight: bold">ROBBERY</option>
+            <option value='Motor_theft' style="font-size: 25px; font-family: courier; font-weight: bold">MOTOR THEFT</option>
+            <option value='Murder' style="font-size: 25px; font-family: courier; font-weight: bold" >MURDER</option>
+            <option value='Burglary' style="font-size: 25px; font-family: courier; font-weight: bold">BURGLARY</option>
+            <option value='Rape_legacy' style="font-size: 25px; font-family: courier; font-weight: bold">RAPE(LEGACY DEFINITION)</option>
+            <option value='Rape_revised' style="font-size: 25px; font-family: courier; font-weight: bold">RAPE(REVISED DEFINITION)</option>
         </select>
     </div>
 </div>
