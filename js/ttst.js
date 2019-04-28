@@ -48,7 +48,7 @@ function createMap(option, json, data) {
 
     // D3 Projection
     var projection = d3.geoAlbersUsa()
-                   .translate([1700 / 2, 500 / 2]) // translate to center of screen
+                   .translate([1000 / 2, 500 / 2]) // translate to center of screen
                    .scale([1000]); // scale things down so see entire US
    
     // Define path generator
