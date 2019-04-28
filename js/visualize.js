@@ -1,8 +1,5 @@
-<<<<<<< HEAD:js/visualize.js
+
 // The code below has been adapted from https://github.com/vishalpandey2192/DV_Project
-=======
-// The code below has been adapted from ..............
->>>>>>> 1e53bc4bb5ceb8d92764a8ad6cbf909bdf8e25e4:js/ttst.js
 
  function tooltip_render(tooltip_data) {
     var text = "<h5 style = 'font-size: 40px'>" + tooltip_data.state + "</h5>";
