@@ -1,4 +1,4 @@
-// The code below has been adapted from ..............
+// The code below has been adapted from https://github.com/vishalpandey2192/DV_Project
 
  function tooltip_render(tooltip_data) {
     var text = "<h5 style = 'font-size: 40px'>" + tooltip_data.state + "</h5>";
