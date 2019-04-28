@@ -1,34 +1,24 @@
+// The code below has been adapted from ..............
 
  function tooltip_render(tooltip_data) {
-     //console.log(tooltip_data.area, "gdg");
-
-    //var area = tooltip_data.area.toString();
-
-    var text = "<h5>" + tooltip_data.state + "</h5>";
+    var text = "<h5 style = 'font-size: 40px'>" + tooltip_data.state + "</h5>";
     text += "<ul>";
-    text += "<li> <strong>Average Population 2015/16:</strong> " + tooltip_data.avgpopulation + "</li>";
-    text += "<li> <strong>Value in 2015:</strong> " + tooltip_data.value2015 + "</li>";
-    text += "<li> <strong>Value in 2016:</strong> " + tooltip_data.value2016 + "</li>";
-    text += "<li> <strong>Percentage Change:</strong> " + tooltip_data.percentchange + "%</li>";
+    text += "<li style = 'font-size: 18px'> <strong>Average Population 2015/16:</strong> " + tooltip_data.avgpopulation + "</li>";
+    text += "<li style = 'font-size: 18px'> <strong>Value in 2015:</strong> " + tooltip_data.value2015 + "</li>";
+    text += "<li style = 'font-size: 18px'> <strong>Value in 2016:</strong> " + tooltip_data.value2016 + "</li>";
+    text += "<li style = 'font-size: 18px'> <strong>Percentage Change:</strong> " + tooltip_data.percentchange + "%</li>";
     text += "</ul>";
-
     return text;
 }
 
 
-
-
-
-
 function createMap(option, json, data) {
-
-    //for (var m = 0; m<(json.features.length)-45; m++ ) {console.log(json.features[m],"pp");}
-    //var col = "rgb(67, 217, 117)";
     var col = "hsl(0, 80%, 50%)";
+
     var yMin = d3.min(data, function(d) {
        return d.details[option][2];
     });
-    console.log(yMin)
+    
     var yMax = d3.max(data, function(d) {
         return d.details[option][2];
     });
@@ -37,36 +27,24 @@ function createMap(option, json, data) {
         .domain([yMin, yMax])
         .range([d3.rgb(col).brighter(), d3.rgb(col).darker()]);
 
-    //adding tooltip
     var tooltip = d3.select("body").append("div")
         .attr("class", "tooltip-title")
         .style("opacity", 0);
 
     for (var i = 0; i < data.length; i++) {
-
-        // Grab State Name
         var dataState = data[i].State;
-
-        // Grab data value
         var dataValue = data[i].details[option][2];
-
         // Find the corresponding state inside the GeoJSON
-        for (var j = 0; j < json.features.length; j++) {
-           
+        for (var j = 0; j < json.features.length; j++) {           
             var jsonState = json.features[j].properties.name;
-
             if (dataState == jsonState) {
-
                 // Copy the data value into the JSON
                 json.features[j].properties[option] = dataValue;
-
                 // Stop looking through the JSON
                 break;
             }
         }
     }
-
-
 
     // D3 Projection
     var projection = d3.geoAlbersUsa()
@@ -77,52 +55,24 @@ function createMap(option, json, data) {
     var path = d3.geoPath() // path generator that will convert GeoJSON to SVG paths
               .projection(projection); // tell path generator to use albersUsa projection
            
-
-
-    // Bind the data to the SVG and create one path per GeoJSON feature
-
-    //d3.select("body").append("p").text("title");
-   /* var title_text = "<label style='font-size: 30px'>" + option + "</label>";
-    d3.select("map-view").append("div")
-    .attr("class", "displayed_variable")
-    .html(title_text);
-
-
-    var element = document.createElement("div");
-    element.appendChild(document.createElement('LABEL'));
-    document.getElementById('map-view').appendChild(element);*/
-
-    
-    
     var label = document.createElement('LABEL');
-
     var t = document.createTextNode(option);
-    //label.style("right", "500px");
-    //label.
-    label.style.fontSize = "xx-large";
-    //t.transform = "translateX(2000px)";     
+    label.style.fontSize = "55px";
+    label.style.fontFamily = "garamond";  
     label.appendChild(t);
     var kk = document.createElement('div');
     kk.style.float = "right";
+    kk.style.paddingTop = "60px";
     kk.appendChild(label);
 
     document.getElementById('map-view').appendChild(kk);
 
-    /*var y = document.createElement("label");
-    y.setAttribute('width', '100px');
-    y.innerText = option;
-    document.getElementById('body').appendChild(y);*/
-
-
-
+    // Bind the data to the SVG and create one path per GeoJSON feature
     var svg = d3.select("#map-view")
             .append("svg")
             .attr("width", 1500)
             .attr("height", 500);
-            //console.log(json.features);
-            console.log("sikri");
             
-
     svg.selectAll("path")
         .data(json.features)
         .enter()
@@ -132,16 +82,12 @@ function createMap(option, json, data) {
         .style("stroke-width", "1")
         .style("fill", function(d) {
 
-            //Get data value
-            //console.log("juna");
     var val = d.properties[option];
 
-            if (val) {
-                return color(val);
-            } else {
-                return "rgb(213,222,217)";
-            }
-        })
+    if (val) return color(val);
+    else return "rgb(213,222,217)";
+    
+    })
         .on("mouseover", function(d) {
 
             for (i = 0; i < data.length; i++) {
@@ -149,13 +95,11 @@ function createMap(option, json, data) {
                     var stateData = data[i];
                     var tooltip_data = {
                         "state": stateData.State,
-                        //"area": stateData.details.Area,
                         "avgpopulation": stateData.details.Population[2],
                         "value2015": stateData.details[option][0],
                         "value2016": stateData.details[option][1],
                         "percentchange": stateData.details[option][3]
                     };
-                    //console.log(tooltip_data.area, "lk", stateData.details.Area );
                     var body = tooltip_render(tooltip_data);
                     tooltip.transition()
                         .duration(200)
@@ -187,5 +131,4 @@ function updateMap(value) {
 
 }
 
-console.log("ttt");
 updateMap("Population");
